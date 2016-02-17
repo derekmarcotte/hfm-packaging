@@ -1,7 +1,7 @@
 # $FreeBSD$
 
 PORTNAME=	hfm
-PORTVERSION=	1.1.2
+PORTVERSION=	1.1.3
 DISTVERSIONPREFIX=	v
 CATEGORIES=	sysutils
 
@@ -19,13 +19,25 @@ BUILD_DEPENDS=	gb>=0.4:${PORTSDIR}/devel/gb \
 USE_GITHUB=	yes
 GH_ACCOUNT=	derekmarcotte
 
+# As a custom port, we don't use the main UID/GID registry
+UID_FILES=	${FILESDIR}/UIDs
+GID_FILES=	${FILESDIR}/GIDs
+
+USERS=		_hfm
+GROUPS=		_hfm
+
+USE_RC_SUBR=	hfm
+
 MAKE_ARGS+=	ETCDIR=${ETCDIR} TAG=${DISTVERSIONPREFIX}${PORTVERSION}
 
 NO_INSTALL=	yes
 ALL_TARGET=	test build
 
 pre-patch:
-	(cd ${WRKSRC}; make patch-local-go-libucl)
+	(cd ${WRKSRC}; make deps )
+
+do-patch:
+	(cd ${WRKSRC}; ${PATCH} vendor/src/github.com/mitchellh/go-libucl/libucl.go < vendor/patches/github.com/mitchellh/go-libucl/libucl.go.patch )
 
 do-install:
 	@${MKDIR} ${STAGEDIR}${PREFIX}/bin
