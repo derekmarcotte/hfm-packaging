@@ -12,9 +12,9 @@ LICENSE=	BSD2CLAUSE
 
 # gb 0.4 includes FreeBSD-specific fixes that this port requires
 #   https://github.com/constabulary/gb/issues/506
-BUILD_DEPENDS=	gb>=0.4:${PORTSDIR}/devel/gb \
-		git:${PORTSDIR}/devel/git-lite \
-		${LOCALBASE}/lib/libucl.a:${PORTSDIR}/textproc/libucl
+PATCH_DEPENDS=	gb>=0.4:${PORTSDIR}/devel/gb \
+		git:${PORTSDIR}/devel/git-lite
+BUILD_DEPENDS=	${LOCALBASE}/lib/libucl.a:${PORTSDIR}/textproc/libucl
 
 USE_GITHUB=	yes
 GH_ACCOUNT=	derekmarcotte
