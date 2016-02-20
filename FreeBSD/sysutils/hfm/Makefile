@@ -12,12 +12,14 @@ LICENSE=	BSD2CLAUSE
 
 # gb 0.4 includes FreeBSD-specific fixes that this port requires
 #   https://github.com/constabulary/gb/issues/506
-PATCH_DEPENDS=	gb>=0.4:${PORTSDIR}/devel/gb \
-		git:${PORTSDIR}/devel/git-lite
-BUILD_DEPENDS=	${LOCALBASE}/lib/libucl.a:${PORTSDIR}/textproc/libucl
+EXTRACT_DEPENDS=	gb>=0.4:${PORTSDIR}/devel/gb
+BUILD_DEPENDS=		${LOCALBASE}/lib/libucl.a:${PORTSDIR}/textproc/libucl
 
 USE_GITHUB=	yes
-GH_ACCOUNT=	derekmarcotte
+
+GH_ACCOUNT=    derekmarcotte		mitchellh:gu	op:gl
+GH_PROJECT=    hfm			go-libucl:gu	go-logging:gl
+GH_TAGNAME=    ${DISTVERSIONFULL}	f9d0e55:gu	dfaf3df:gl
 
 # As a custom port, we don't use the main UID/GID registry
 UID_FILES=	${FILESDIR}/UIDs
@@ -33,8 +35,11 @@ MAKE_ARGS+=	ETCDIR=${ETCDIR} TAG=${DISTVERSIONPREFIX}${PORTVERSION}
 NO_INSTALL=	yes
 ALL_TARGET=	test build
 
-pre-patch:
-	(cd ${WRKSRC}; make deps )
+post-extract:
+	${MKDIR} ${WRKSRC}/vendor/src/github.com/mitchellh/go-libucl
+	${MV} ${WRKDIR}/go-libucl-f9d0e55/* ${WRKSRC}/vendor/src/github.com/mitchellh/go-libucl/
+	${MKDIR} ${WRKSRC}/vendor/src/github.com/op/go-logging
+	${MV} ${WRKDIR}/go-logging-dfaf3df/* ${WRKSRC}/vendor/src/github.com/op/go-logging/
 
 do-patch:
 	(cd ${WRKSRC}; ${PATCH} vendor/src/github.com/mitchellh/go-libucl/libucl.go < vendor/patches/github.com/mitchellh/go-libucl/libucl.go.patch )
