@@ -1,7 +1,7 @@
 # $FreeBSD$
 
 PORTNAME=	hfm
-PORTVERSION=	1.1.3
+PORTVERSION=	1.2.1
 DISTVERSIONPREFIX=	v
 CATEGORIES=	sysutils
 
@@ -16,11 +16,12 @@ BUILD_DEPENDS=	go>=1.5:${PORTSDIR}/lang/go \
 		gb>=0.4:${PORTSDIR}/devel/gb \
 		${LOCALBASE}/lib/libucl.a:${PORTSDIR}/textproc/libucl
 
+USES=		compiler:c++11-lang
 USE_GITHUB=	yes
 
-GH_ACCOUNT=    derekmarcotte		mitchellh:gu	op:gl
-GH_PROJECT=    hfm			go-libucl:gu	go-logging:gl
-GH_TAGNAME=    ${DISTVERSIONFULL}	f9d0e55:gu	dfaf3df:gl
+GH_ACCOUNT=	derekmarcotte		mitchellh:gu	op:gl
+GH_PROJECT=	hfm			go-libucl:gu	go-logging:gl
+GH_TAGNAME=	${DISTVERSIONFULL}	f9d0e55:gu	dfaf3df:gl
 
 # As a custom port, we don't use the main UID/GID registry
 UID_FILES=	${FILESDIR}/UIDs
